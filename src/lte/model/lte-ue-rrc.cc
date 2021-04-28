@@ -2719,10 +2719,10 @@ LteUeRrc::SaveUeMeasurements (uint16_t cellId, double rsrp, double rsrq,
                      << ", new RSRQ " << rsrq << " stored " << storedMeasIt->second.rsrq);
 
   
-  std::cout<< " IMSI " << m_imsi << " state " << ToString (m_state)
-                     << ", measured cell " << m_cellId
-                     << ", new RSRP " << rsrp << " stored " << storedMeasIt->second.rsrp
-                     << ", new RSRQ " << rsrq << " stored " << storedMeasIt->second.rsrq<<"\n";
+  // std::cout<< " IMSI " << m_imsi << " state " << ToString (m_state)
+  //                    << ", measured cell " << m_cellId
+  //                    << ", new RSRP " << rsrp << " stored " << storedMeasIt->second.rsrp
+  //                    << ", new RSRQ " << rsrq << " stored " << storedMeasIt->second.rsrq<<"\n";
   storedMeasIt->second.timestamp = Simulator::Now ();
 
 } // end of void SaveUeMeasurements

@@ -270,6 +270,14 @@ MmWaveSpectrumPhy::SetPhyRxCtrlEndOkCallback (MmWavePhyRxCtrlEndOkCallback c)
   m_phyRxCtrlEndOkCallback = c;
 }
 
+//Ne Imp
+void
+MmWaveSpectrumPhy::SetPhyRxPssCallback(MmWavePhyRxPssCallback c)
+{
+	m_phyRxPssCallback = c;
+}
+//
+
 void
 MmWaveSpectrumPhy::AddExpectedTb (uint16_t rnti, uint8_t ndi, uint16_t size, uint8_t mcs,
                                   std::vector<int> chunkMap, uint8_t harqId, uint8_t rv, bool downlink,
@@ -493,14 +501,15 @@ MmWaveSpectrumPhy::StartRxCtrl (Ptr<SpectrumSignalParameters> params)
 				NS_LOG_ERROR ("SpectrumSignalParameters type not supported");
 			}
 			// check presence of PSS for UE measuerements
-			/*if (dlCtrlRxParams->pss == true)
+			if (dlCtrlRxParams->pss == true)
 			{
 				SpectrumValue pssPsd = *params->psd;
 				if (!m_phyRxPssCallback.IsNull ())
 				{
 					m_phyRxPssCallback (cellId, params->psd);
+					// std::cout << "mmWave spectrun phy / phyRxPssCallback called" << "\n";
 				}
-			}*/
+			}
 			if (cellId  == m_cellId)
 			{
 				if(m_state == RX_CTRL)

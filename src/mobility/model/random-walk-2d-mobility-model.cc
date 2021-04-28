@@ -86,10 +86,14 @@ RandomWalk2dMobilityModel::DoInitializePrivate (void)
 {
   m_helper.Update ();
   double speed = m_speed->GetValue ();
+  // std::cout<<"Velocity from helper is "<<speed<<"\n";
   double direction = m_direction->GetValue ();
   Vector vector (std::cos (direction) * speed,
                  std::sin (direction) * speed,
                  0.0);
+
+  // std::cout<<"Velocity vector is \n";
+  // std::cout<<vector<<"\n";
   m_helper.SetVelocity (vector);
   m_helper.Unpause ();
 
@@ -183,5 +187,10 @@ RandomWalk2dMobilityModel::DoAssignStreams (int64_t stream)
   return 2;
 }
 
+Vector
+RandomWalk2dMobilityModel::GetVelocity()
+{
+  return m_helper.GetVelocity();
+}
 
 } // namespace ns3

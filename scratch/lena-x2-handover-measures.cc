@@ -115,6 +115,19 @@ NotifyHandoverEndOkEnb (std::string context,
             << std::endl;
 }
 
+void reportSpeed(ns3::Ptr<ns3::RandomWalk2dMobilityModel> randomWalkModel)
+{
+  std::cout<<"Velocity is\n";
+  Vector vv = randomWalkModel->GetVelocity();
+  if(vv.x < 0)
+  {
+    vv.x*=-1;
+  }
+  std::cout<<vv.x<<"\n";
+  Simulator::Schedule ( MilliSeconds(200) , &reportSpeed ,randomWalkModel);
+
+}
+
 
 /**
  * Sample simulation script for an automatic X2-based handover based on the RSRQ measures.
@@ -244,10 +257,15 @@ main (int argc, char *argv[])
 
   // Install Mobility Model in UE
   MobilityHelper ueMobility;
-  ueMobility.SetMobilityModel ("ns3::ConstantVelocityMobilityModel");
+  ueMobility.SetMobilityModel ("ns3::RandomWalk2dMobilityModel","Direction",StringValue("ns3::UniformRandomVariable[Min=0.0|Max=0.0]"),"Speed",StringValue("ns3::UniformRandomVariable[Min=400|Max=550]")
+  ,"Bounds",RectangleValue(Rectangle (0.0, 1000.0, 0.0, 1000.0)));
   ueMobility.Install (ueNodes);
   ueNodes.Get (0)->GetObject<MobilityModel> ()->SetPosition (Vector (0, yForUe, 0));
-  ueNodes.Get (0)->GetObject<ConstantVelocityMobilityModel> ()->SetVelocity (Vector (0, 0, 0));
+  // std::cout<<"Type ID is\n";
+  ns3::Ptr<ns3::RandomWalk2dMobilityModel> randomWalkModel = ueNodes.Get (0)->GetObject<RandomWalk2dMobilityModel> ();
+
+  // std::cout<<(ueNodes.Get (0)->GetObject<RandomWalk2dMobilityModel> ()->GetTypeId())<<"\n";
+  // randomMobilityModel = ueNodes.Get (0)->GetObject<RandomWalk2dMobilityModel> ()->SetVelocity (Vector (250, 0, 0));
 
   // Install LTE Devices in eNB and UEs
   // std::cout<<"Kya iske baad aat hai \n";
@@ -363,13 +381,12 @@ main (int argc, char *argv[])
                    MakeCallback (&NotifyHandoverEndOkUe));
 
   AnimationInterface anim ("lenax2.xml");
-
-  Simulator::Stop (Seconds (simTime));
+  Simulator::Schedule (Seconds(0.1) , &reportSpeed ,randomWalkModel);
+  Simulator::Stop (Seconds (10));
   Simulator::Run ();
 
   // GtkConfigStore config;
   // config.ConfigureAttributes ();
-
   Simulator::Destroy ();
   return 0;
 

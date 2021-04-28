@@ -57,6 +57,8 @@ public:
     MODE_TIME
   };
 
+  Vector GetVelocity();
+
 private:
   /**
    * \brief Performs the rebound of the node if it reaches a boundary

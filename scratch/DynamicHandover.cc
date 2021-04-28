@@ -24,6 +24,10 @@
 using namespace ns3;
 using namespace mmwave;
 
+void PhySnirTrace2 (std::string context ,uint16_t cellId, uint16_t rnti, double rsrp, double sinr, uint8_t componentCarrierId)
+{ 
+    std::cout<<"RSRP is "<<rsrp<<"\n";
+}
 
 
 NS_LOG_COMPONENT_DEFINE ("5ghandover");
@@ -166,6 +170,8 @@ main (int argc, char *argv[])
   Config::SetDefault ("ns3::UdpClient::Interval", TimeValue (MilliSeconds (10)));
   Config::SetDefault ("ns3::UdpClient::MaxPackets", UintegerValue (1000000));
   Config::SetDefault ("ns3::MmWaveHelper::UseIdealRrc", BooleanValue (false));
+  Config::Connect ("/NodeList/*/DeviceList/0/$ns3::LteUeNetDevice/ComponentCarrierMapUe/*/LteUePhy/ReportCurrentCellRsrpSinr", MakeCallback (&PhySnirTrace2));
+
 
   // Config::SetDefault ("ns3::MmWavePhyMacCommon::ResourceBlockNum", UintegerValue (1));
   // Config::SetDefault ("ns3::MmWavePhyMacCommon::ChunkPerRB", UintegerValue (72));

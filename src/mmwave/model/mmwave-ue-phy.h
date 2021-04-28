@@ -43,6 +43,7 @@
 #include <ns3/lte-ue-cphy-sap.h>
 #include <ns3/mmwave-harq-phy.h>
 #include "mmwave-enb-net-device.h"
+#include <queue>
 
 
 
@@ -106,6 +107,7 @@ public:
 	void EndSlot ();
 
 
+
 	uint32_t GetSubframeNumber (void);
 
 	void PhyDataPacketReceived (Ptr<Packet> p);
@@ -136,6 +138,12 @@ public:
 	void ReceiveLteDlHarqFeedback (DlHarqInfo m);
 
 	void UpdateSinrEstimate(uint16_t cellId, double sinr);
+
+	uint16_t avgLen=20;
+	std::map< uint16_t , std::queue<double> > avgSinrs;
+	std::map< uint16_t , std::pair<int,double> > frqAvg;
+	std::string allParams;
+	std::string GetParams();
 
 
 private:
@@ -186,6 +194,7 @@ private:
 	bool m_ulConfigured;
 
 	TracedCallback< uint64_t, SpectrumValue&, SpectrumValue& > m_reportCurrentCellRsrpSinrTrace;
+	TracedCallback< uint64_t, uint16_t, uint16_t, double > m_reportAllCellRsrpSinrTrace;
 
 	TracedCallback<uint64_t, uint64_t> m_reportUlTbSize;
 	TracedCallback<uint64_t, uint64_t> m_reportDlTbSize;
@@ -196,6 +205,18 @@ private:
 	uint64_t m_imsi;
 
 	Ptr<MmWaveHarqPhy> m_harqPhyModule;
+
+	struct UeMeasurementsElement
+  {
+    double rsrpSum;   ///< Sum of RSRP sample values in linear unit.
+    uint8_t rsrpNum;  ///< Number of RSRP samples.
+    double rsrqSum;   ///< Sum of RSRQ sample values in linear unit.
+    uint8_t rsrqNum;  ///< Number of RSRQ samples.
+  };
+
+	std::map <uint16_t, UeMeasurementsElement> m_ueMeasurementsMap;
+
+
 
 	std::vector<int> m_channelChunks;
 

@@ -809,7 +809,7 @@ LteUePhy::ReportUeMeasurements ()
 {
   NS_LOG_FUNCTION (this << Simulator::Now ());
   NS_LOG_DEBUG (this << " Report UE Measurements ");
-  std::cout<<"In Report UE Measurements and starting to record\n";
+  // std::cout<<"In Report UE Measurements and starting to record\n";
 
   LteUeCphySapUser::UeMeasurementsParameters ret;
 
@@ -831,12 +831,12 @@ LteUePhy::ReportUeMeasurements ()
                          << " ComponentCarrierID " << (uint16_t)m_componentCarrierId);
 
       
-      std::cout << " In lte ue phy CellId " << (*it).first
-                         << " RSRP " << avg_rsrp
-                         << " (nSamples " << (uint16_t)(*it).second.rsrpNum << ")"
-                         << " RSRQ " << avg_rsrq
-                         << " (nSamples " << (uint16_t)(*it).second.rsrqNum << ")"
-                         << " ComponentCarrierID " << (uint16_t)m_componentCarrierId<<"\n";
+      // std::cout << " In lte ue phy CellId " << (*it).first
+      //                    << " RSRP " << avg_rsrp
+      //                    << " (nSamples " << (uint16_t)(*it).second.rsrpNum << ")"
+      //                    << " RSRQ " << avg_rsrq
+      //                    << " (nSamples " << (uint16_t)(*it).second.rsrqNum << ")"
+      //                    << " ComponentCarrierID " << (uint16_t)m_componentCarrierId<<"\n";
 
       LteUeCphySapUser::UeMeasurementsElement newEl;
       newEl.m_cellId = (*it).first;

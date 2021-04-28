@@ -83,6 +83,7 @@ typedef std::map<uint16_t, ExpectedTbInfo_t> ExpectedTbMap_t;
 
 typedef Callback< void, Ptr<Packet> > MmWavePhyRxDataEndOkCallback;
 typedef Callback< void, std::list<Ptr<MmWaveControlMessage> > > MmWavePhyRxCtrlEndOkCallback;
+typedef Callback< void, uint16_t, Ptr<SpectrumValue> > MmWavePhyRxPssCallback;
 
 /**
 * This method is used by the LteSpectrumPhy to notify the PHY about
@@ -95,8 +96,6 @@ typedef Callback< void, DlHarqInfo > MmWavePhyDlHarqFeedbackCallback;
 * the status of a certain UL HARQ process
 */
 typedef Callback< void, UlHarqInfo > MmWavePhyUlHarqFeedbackCallback;
-
-typedef Callback< void, uint16_t, Ptr<SpectrumValue> > LtePhyRxPssCallback;
 
 
 class MmWaveSpectrumPhy : public SpectrumPhy
@@ -155,7 +154,7 @@ public:
 	void SetPhyRxCtrlEndOkCallback (MmWavePhyRxCtrlEndOkCallback c);
 	void SetPhyDlHarqFeedbackCallback (MmWavePhyDlHarqFeedbackCallback c);
 	void SetPhyUlHarqFeedbackCallback (MmWavePhyUlHarqFeedbackCallback c);
-	void SetLtePhyRxPssCallback (LtePhyRxPssCallback c);
+	void SetPhyRxPssCallback(MmWavePhyRxPssCallback c);
 
 	void AddDataPowerChunkProcessor (Ptr<mmWaveChunkProcessor> p);
 	void AddDataSinrChunkProcessor (Ptr<mmWaveChunkProcessor> p);
@@ -198,11 +197,10 @@ private:
 
 	MmWavePhyRxCtrlEndOkCallback    m_phyRxCtrlEndOkCallback;
 	MmWavePhyRxDataEndOkCallback 		m_phyRxDataEndOkCallback;
+	MmWavePhyRxPssCallback			m_phyRxPssCallback;
 
 	MmWavePhyDlHarqFeedbackCallback m_phyDlHarqFeedbackCallback;
 	MmWavePhyUlHarqFeedbackCallback m_phyUlHarqFeedbackCallback;
-	LtePhyRxPssCallback  m_ltePhyRxPssCallback; ///< the LTE phy receive PSS callback
-
 
 	TracedCallback<RxPacketTraceParams> m_rxPacketTraceEnb;
 	TracedCallback<RxPacketTraceParams> m_rxPacketTraceUe;
